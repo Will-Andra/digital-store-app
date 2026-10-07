@@ -162,7 +162,7 @@ fun ScreenArea(
         ) {
             HomeCardMenu(
                 title = "Users",
-                description = "Consult the app's users.",
+                description = "Consult the app's userDTOS.",
                 icon = Icons.Outlined.People,
                 modifier = Modifier.weight(1f),
                 onClick = {
