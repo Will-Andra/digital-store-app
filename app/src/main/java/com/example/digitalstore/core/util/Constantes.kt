@@ -1,4 +1,4 @@
-package com.example.digitalstore.util
+package com.example.digitalstore.core.util
 
 object Constantes {
 

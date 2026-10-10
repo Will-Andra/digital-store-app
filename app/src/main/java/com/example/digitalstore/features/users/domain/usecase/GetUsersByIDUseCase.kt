@@ -3,8 +3,9 @@ package com.example.digitalstore.features.users.domain.usecase
 import com.example.digitalstore.features.users.data.repository.UserRepositoryImpl
 import com.example.digitalstore.features.users.domain.model.Users
 import com.example.digitalstore.features.users.domain.repository.UserRepository
+import javax.inject.Inject
 
-class GetUsersByIDUseCase (
+class GetUsersByIDUseCase @Inject constructor (
     private val userRepository: UserRepository
 ){
 
