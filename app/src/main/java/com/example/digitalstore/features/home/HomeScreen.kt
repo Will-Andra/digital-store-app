@@ -1,10 +1,7 @@
 package com.example.digitalstore.features.home
 
-import android.R
 import android.app.Activity
-import android.view.RoundedCorner
 import android.widget.Toast
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,15 +9,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -45,9 +38,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.HorizontalAlignmentLine
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
@@ -56,10 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.example.digitalstore.ui.theme.Blue80
 import com.example.digitalstore.ui.theme.DigitalStoreTheme
-import com.example.digitalstore.ui.theme.Purple40
-import com.example.digitalstore.ui.theme.Purple80
-import com.example.digitalstore.util.Constantes
-import java.util.function.IntConsumer
+import com.example.digitalstore.core.util.Constantes
 
 @Composable
 fun HomeScreen(
@@ -162,7 +149,7 @@ fun ScreenArea(
         ) {
             HomeCardMenu(
                 title = "Users",
-                description = "Consult the app's users.",
+                description = "Consult the app's userDTOS.",
                 icon = Icons.Outlined.People,
                 modifier = Modifier.weight(1f),
                 onClick = {

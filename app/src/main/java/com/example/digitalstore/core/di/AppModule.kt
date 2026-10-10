@@ -1,6 +1,9 @@
 package com.example.digitalstore.core.di
 
-import com.example.digitalstore.util.Constantes
+import com.example.digitalstore.features.users.data.remote.UserAPI
+import com.example.digitalstore.core.util.Constantes
+import com.example.digitalstore.features.users.data.repository.UserRepositoryImpl
+import com.example.digitalstore.features.users.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,5 +22,16 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    @Provides
+    fun providesUserAPI(retrofit: Retrofit): UserAPI{
+        return retrofit.create(UserAPI::class.java)
+    }
+
+    @Provides
+    fun providesUserRepository(userAPI: UserAPI): UserRepository{
+        return UserRepositoryImpl(userAPI)
+    }
+
 
 }

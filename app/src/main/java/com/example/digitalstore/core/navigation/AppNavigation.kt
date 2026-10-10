@@ -20,7 +20,7 @@ fun AppNavigation(){
         composable ("home"){
             HomeScreen(
                 onUserClick = {
-                    navController.navigate("users")
+                    navController.navigate("userDTOS")
                 },
                 onProductClick = {
                     navController.navigate("products")
@@ -34,7 +34,7 @@ fun AppNavigation(){
             )
         }
 
-        composable("users"){
+        composable("userDTOS"){
             //UserScreen()
         }
         composable ("products"){
