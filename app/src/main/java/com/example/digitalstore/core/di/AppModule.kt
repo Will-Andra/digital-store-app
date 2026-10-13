@@ -2,6 +2,9 @@ package com.example.digitalstore.core.di
 
 import com.example.digitalstore.features.users.data.remote.UserAPI
 import com.example.digitalstore.core.util.Constantes
+import com.example.digitalstore.features.products.data.remote.ProductAPI
+import com.example.digitalstore.features.products.data.repository.ProductRepositoryImpl
+import com.example.digitalstore.features.products.domain.repository.ProductRepository
 import com.example.digitalstore.features.users.data.repository.UserRepositoryImpl
 import com.example.digitalstore.features.users.domain.repository.UserRepository
 import dagger.Module
@@ -31,6 +34,16 @@ object AppModule {
     @Provides
     fun providesUserRepository(userAPI: UserAPI): UserRepository{
         return UserRepositoryImpl(userAPI)
+    }
+
+    @Provides
+    fun providesProductAPI(retrofit: Retrofit): ProductAPI{
+        return retrofit.create(ProductAPI::class.java)
+    }
+
+    @Provides
+    fun providesProductRepository(productAPI: ProductAPI): ProductRepository{
+        return ProductRepositoryImpl(productAPI)
     }
 
 
