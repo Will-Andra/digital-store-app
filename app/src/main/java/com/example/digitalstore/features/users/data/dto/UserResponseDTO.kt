@@ -4,5 +4,5 @@ data class UserResponseDTO(
     val limit: Int,
     val skip: Int,
     val total: Int,
-    val userDTOS: List<UserDTO>
+    val users: List<UserDTO>
 )

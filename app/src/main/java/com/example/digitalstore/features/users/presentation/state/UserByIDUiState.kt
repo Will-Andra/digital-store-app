@@ -1,4 +1,4 @@
-package com.example.digitalstore.features.users.presentation
+package com.example.digitalstore.features.users.presentation.state
 
 import com.example.digitalstore.core.domain.AppError
 import com.example.digitalstore.features.users.domain.model.Users

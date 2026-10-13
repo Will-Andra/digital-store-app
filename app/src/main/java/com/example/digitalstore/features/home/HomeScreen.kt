@@ -148,16 +148,6 @@ fun ScreenArea(
             horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             HomeCardMenu(
-                title = "Users",
-                description = "Consult the app's userDTOS.",
-                icon = Icons.Outlined.People,
-                modifier = Modifier.weight(1f),
-                onClick = {
-                    Toast.makeText(context, "Navigating to Users...", Toast.LENGTH_SHORT).show()
-                    //onUserClick()
-                }
-            )
-            HomeCardMenu(
                 title = "Products",
                 description = "Explore our wide range of products.",
                 icon = Icons.Outlined.ShoppingBag,
@@ -165,6 +155,16 @@ fun ScreenArea(
                 onClick = {
                     Toast.makeText(context, "Navigating to Products...", Toast.LENGTH_SHORT).show()
                     //onProductClick()
+                }
+            )
+            HomeCardMenu(
+                title = "Cart",
+                description = "Check your shopping cart.",
+                icon = Icons.Outlined.ShoppingCart,
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    Toast.makeText(context, "Navigating to Cart...", Toast.LENGTH_SHORT).show()
+                    //onCartClick()
                 }
             )
 
@@ -179,13 +179,12 @@ fun ScreenArea(
             horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             HomeCardMenu(
-                title = "Cart",
-                description = "Check your shopping cart.",
-                icon = Icons.Outlined.ShoppingCart,
+                title = "Users",
+                description = "Consult the app's users.",
+                icon = Icons.Outlined.People,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    Toast.makeText(context, "Navigating to Cart...", Toast.LENGTH_SHORT).show()
-                    //onCartClick()
+                    onUserClick()
                 }
             )
             HomeCardMenu(

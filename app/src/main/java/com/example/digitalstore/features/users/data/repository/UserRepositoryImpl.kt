@@ -14,7 +14,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getUsers(): Result<List<Users>> {
         return safeCall {
             val response = userAPI.getUsers()
-            response.userDTOS.map { user ->
+            response.users.map { user ->
                 user.toDomainUser()
             }
         }

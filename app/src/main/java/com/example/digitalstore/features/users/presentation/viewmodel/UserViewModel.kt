@@ -1,9 +1,10 @@
-package com.example.digitalstore.features.users.presentation
+package com.example.digitalstore.features.users.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digitalstore.core.domain.AppError
 import com.example.digitalstore.features.users.domain.usecase.GetUsersUseCase
+import com.example.digitalstore.features.users.presentation.state.UserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class UserViewModel @Inject constructor(

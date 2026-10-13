@@ -1,9 +1,10 @@
-package com.example.digitalstore.features.users.presentation
+package com.example.digitalstore.features.users.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digitalstore.core.domain.AppError
 import com.example.digitalstore.features.users.domain.usecase.GetUsersByIDUseCase
+import com.example.digitalstore.features.users.presentation.state.UserByIDUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
