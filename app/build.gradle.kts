@@ -66,10 +66,14 @@ dependencies {
 
     // Coil: para carregamento de imagens no Jetpack Compose
     implementation("io.coil-kt.coil3:coil-compose:3.6.3")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.3")
 
     // Hilt: Injeção de Dependência
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    //Hilt: Compose Navigation
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Retrofit: Conexão HTTP
     implementation(libs.retrofit)
