@@ -1,5 +1,6 @@
 package com.example.digitalstore.features.products.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digitalstore.core.domain.AppError
@@ -24,15 +25,18 @@ class ProductViewModel @Inject constructor(
     val uiState: StateFlow<ProductUiState> = _uiState.asStateFlow()
 
     fun loadProducts(){
+
         viewModelScope.launch {
             _uiState.update { ProductUiState.Loading }
 
-            getProductUseCase().fold(
-                onSuccess = {products ->
+            val result = getProductUseCase()
+
+            result.fold(
+                onSuccess = { products ->
                     _uiState.update { ProductUiState.Success(products) }
                 },
-                onFailure = {error ->
-                    val appError = (error as? AppError)?: AppError.Unknown(error)
+                onFailure = { error ->
+                    val appError = (error as? AppError) ?: AppError.Unknown(error)
                     _uiState.update { ProductUiState.Error(appError) }
                 }
             )

@@ -7,6 +7,7 @@ fun ProductDTO.toDomainProduct(): Products {
     return Products(
         id = id,
         brand = brand,
+        //brand = brand ?: "Unknown",
         category = category,
         description = description,
         dimensions = dimensions,

@@ -1,5 +1,6 @@
 package com.example.digitalstore.features.products.data.repository
 
+import android.util.Log
 import com.example.digitalstore.core.util.safeCall
 import com.example.digitalstore.features.products.data.mapper.toDomainProduct
 import com.example.digitalstore.features.products.data.remote.ProductAPI

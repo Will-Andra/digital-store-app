@@ -153,8 +153,7 @@ fun ScreenArea(
                 icon = Icons.Outlined.ShoppingBag,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    Toast.makeText(context, "Navigating to Products...", Toast.LENGTH_SHORT).show()
-                    //onProductClick()
+                    onProductClick()
                 }
             )
             HomeCardMenu(
@@ -241,7 +240,7 @@ fun HomeCardMenu(
                     modifier = modifier.size(45.dp),
                     tint = Color(Constantes.BLUE_MAINCOLOR)
                 )
-            }//End Box
+            }
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally

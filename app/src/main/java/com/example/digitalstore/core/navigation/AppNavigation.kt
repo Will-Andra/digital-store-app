@@ -2,21 +2,20 @@ package com.example.digitalstore.core.navigation
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.digitalstore.features.home.HomeScreen
-import com.example.digitalstore.features.users.presentation.component.UserDetailScreen
-import com.example.digitalstore.features.users.presentation.component.UserScreen
-import com.example.digitalstore.features.users.presentation.viewmodel.UserViewModel
+import com.example.digitalstore.features.products.presentation.screen.ProductDetailScreen
+import com.example.digitalstore.features.products.presentation.screen.ProductScreen
+import com.example.digitalstore.features.users.presentation.screen.UserDetailScreen
+import com.example.digitalstore.features.users.presentation.screen.UserScreen
 
 @Composable
-fun AppNavigation(){
+fun AppNavigation() {
 
     val navController = rememberNavController()
     val context = LocalContext.current
@@ -24,11 +23,11 @@ fun AppNavigation(){
     NavHost(
         navController = navController,
         startDestination = "home"
-    ){
-        composable("home"){
+    ) {
+        composable("home") {
             HomeScreen(
                 onProductClick = {
-                    Toast.makeText(context, "Products coming soon", Toast.LENGTH_SHORT).show()
+                    navController.navigate("products")
                 },
                 onCartClick = {
                     Toast.makeText(context, "Cart coming soon", Toast.LENGTH_SHORT).show()
@@ -42,8 +41,7 @@ fun AppNavigation(){
             )
         }
 
-        composable("users"){
-
+        composable("users") {
             UserScreen(
                 onBackClick = {
                     navController.popBackStack()
@@ -51,6 +49,17 @@ fun AppNavigation(){
                 onUserClick = { userId ->
                     navController.navigate("userDetail/$userId")
                 }
+            )
+        }
+        composable("products") {
+            ProductScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onProductClick = { productId ->
+                    navController.navigate("productDetail/$productId")
+                }
+
             )
         }
 
@@ -63,6 +72,19 @@ fun AppNavigation(){
             val userId = backStackEntry.arguments?.getInt("userId") ?: 0
             UserDetailScreen(
                 userId = userId,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(
+            route = "productDetail/{productId}",
+            arguments = listOf(navArgument("productId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getInt("productId") ?: 0
+            ProductDetailScreen(
+                productId = productId,
                 onBackClick = {
                     navController.popBackStack()
                 }
