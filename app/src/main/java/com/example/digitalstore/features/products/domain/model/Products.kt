@@ -4,13 +4,13 @@ import com.example.digitalstore.features.products.data.dto.Dimensions
 
 data class Products(
     val id: Int,
-    val brand: String,
+    val brand: String?,
     val category: String,
     val description: String,
     val dimensions: Dimensions,
     val price: Double,
     val shippingInformation: String,
-    val thumbnail: String,
+    val thumbnail: Any,  //String
     val title: String,
     val weight: Int
 )

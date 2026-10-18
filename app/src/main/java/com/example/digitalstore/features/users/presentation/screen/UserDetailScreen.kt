@@ -1,6 +1,5 @@
-package com.example.digitalstore.features.users.presentation.component
+package com.example.digitalstore.features.users.presentation.screen
 
-import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,21 +29,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.digitalstore.R
@@ -52,7 +47,6 @@ import com.example.digitalstore.core.util.Constantes
 import com.example.digitalstore.features.users.domain.model.Users
 import com.example.digitalstore.features.users.presentation.state.UserByIDUiState
 import com.example.digitalstore.features.users.presentation.viewmodel.UserByIDViewModel
-import com.example.digitalstore.ui.theme.Blue80
 import com.example.digitalstore.ui.theme.DigitalStoreTheme
 
 @Composable
@@ -130,7 +124,7 @@ fun UserDetailTopBar(
             IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Voltar",
+                    contentDescription = "Back",
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
@@ -162,7 +156,7 @@ fun UserDetailContent(user: Users) {
         ) {
             AsyncImage(
                 model = user.image,
-                contentDescription = "Foto de perfil de ${user.firstName}",
+                contentDescription = "User picture of ${user.firstName}",
                 modifier = Modifier
                     .size(110.dp)
                     .clip(CircleShape),

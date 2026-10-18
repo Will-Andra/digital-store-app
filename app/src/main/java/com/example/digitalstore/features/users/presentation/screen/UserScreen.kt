@@ -1,6 +1,5 @@
-package com.example.digitalstore.features.users.presentation.component
+package com.example.digitalstore.features.users.presentation.screen
 
-import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -111,7 +110,7 @@ fun UserTopBar(
             IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Voltar",
+                    contentDescription = "Back to  Homescreen",
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
@@ -167,7 +166,7 @@ fun UserItem(
         ) {
             AsyncImage(
                 model = user.image,
-                contentDescription = "Foto de perfil de ${user.firstName}",
+                contentDescription = "Profile Picture ${user.firstName}",
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape),
@@ -222,7 +221,7 @@ fun UserItem(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "Idade: ${user.age} anos",
+                    text = "Age: ${user.age}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
