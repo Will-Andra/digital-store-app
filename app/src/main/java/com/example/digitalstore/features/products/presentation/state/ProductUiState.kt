@@ -7,5 +7,4 @@ sealed interface ProductUiState {
     object Loading: ProductUiState
     data class Success (val products: List<Products>) : ProductUiState
     data class Error (val error: AppError): ProductUiState
-
 }
