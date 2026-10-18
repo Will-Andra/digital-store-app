@@ -1,7 +1,6 @@
 package com.example.digitalstore.features.cart.data.repository
 
 import com.example.digitalstore.core.util.safeCall
-import com.example.digitalstore.features.cart.data.dto.CartDTO
 import com.example.digitalstore.features.cart.data.mapper.toDomainCart
 import com.example.digitalstore.features.cart.data.remote.CartAPI
 import com.example.digitalstore.features.cart.domain.model.Cart
