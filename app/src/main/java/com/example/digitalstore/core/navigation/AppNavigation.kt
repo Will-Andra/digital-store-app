@@ -30,7 +30,7 @@ fun AppNavigation() {
                     navController.navigate("products")
                 },
                 onCartClick = {
-                    Toast.makeText(context, "Cart coming soon", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "CartDTO coming soon", Toast.LENGTH_SHORT).show()
                 },
                 onUserClick = {
                     navController.navigate("users")

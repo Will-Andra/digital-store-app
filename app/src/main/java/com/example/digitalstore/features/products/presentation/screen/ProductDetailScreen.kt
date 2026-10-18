@@ -85,7 +85,7 @@ fun ProductDetailScreenContent(
     Scaffold(
         topBar = {
             ProductDetailTopBar(
-                titletext = "Product Details",
+                titletext = "ProductCart Details",
                 onBackClick = onBackClick
             )
         }
@@ -173,7 +173,7 @@ fun ProductDetailContent(product: Products) {
 
             AsyncImage(
                 model = product.thumbnail,
-                contentDescription = "Product picture${product.thumbnail}",
+                contentDescription = "ProductCart picture${product.thumbnail}",
                 modifier = Modifier
                     .size(110.dp)
                     .clip(CircleShape),
@@ -400,7 +400,7 @@ fun ProductDetailScreenPreview() {
                     price = 0.00,
                     shippingInformation = "Information",
                     thumbnail = R.drawable.ic_perfil,
-                    title = "Product Title",
+                    title = "ProductCart Title",
                     weight = 1
                 )
             ),
