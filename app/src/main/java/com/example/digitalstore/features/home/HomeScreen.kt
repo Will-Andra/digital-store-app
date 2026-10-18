@@ -157,12 +157,12 @@ fun ScreenArea(
                 }
             )
             HomeCardMenu(
-                title = "Cart",
+                title = "CartDTO",
                 description = "Check your shopping cart.",
                 icon = Icons.Outlined.ShoppingCart,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    Toast.makeText(context, "Navigating to Cart...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Navigating to CartDTO...", Toast.LENGTH_SHORT).show()
                     //onCartClick()
                 }
             )

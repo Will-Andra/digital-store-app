@@ -1,7 +1,11 @@
 package com.example.digitalstore.core.di
 
+import androidx.compose.runtime.retain.retainManagedRetainedValuesStore
 import com.example.digitalstore.features.users.data.remote.UserAPI
 import com.example.digitalstore.core.util.Constantes
+import com.example.digitalstore.features.cart.data.remote.CartAPI
+import com.example.digitalstore.features.cart.data.repository.CartRepositoryImpl
+import com.example.digitalstore.features.cart.domain.repository.CartRepository
 import com.example.digitalstore.features.products.data.remote.ProductAPI
 import com.example.digitalstore.features.products.data.repository.ProductRepositoryImpl
 import com.example.digitalstore.features.products.domain.repository.ProductRepository
@@ -44,6 +48,16 @@ object AppModule {
     @Provides
     fun providesProductRepository(productAPI: ProductAPI): ProductRepository{
         return ProductRepositoryImpl(productAPI)
+    }
+
+    @Provides
+    fun providesCartAPI(retrofit: Retrofit): CartAPI{
+        return retrofit.create(CartAPI::class.java)
+    }
+
+    @Provides
+    fun providesCartRepository(cartAPI: CartAPI): CartRepository {
+        return CartRepositoryImpl(cartAPI)
     }
 
 

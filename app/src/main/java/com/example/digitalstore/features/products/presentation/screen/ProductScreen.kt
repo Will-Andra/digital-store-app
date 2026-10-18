@@ -163,7 +163,7 @@ fun ProductItem(
         ) {
             AsyncImage(
                 model = product.thumbnail,
-                contentDescription = "Product picture ${product.title}",
+                contentDescription = "ProductCart picture ${product.title}",
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape),  //Tirar
