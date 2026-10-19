@@ -110,7 +110,10 @@ fun ProductDetailScreenContent(
                 }
 
                 is ProductByIDUiState.Error -> {
-
+                    Text(
+                        text = state.error.toMessageError(),
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             }
         }
@@ -139,7 +142,7 @@ fun ProductDetailTopBar(
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
+                    contentDescription = "Back to Product Screen",
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }

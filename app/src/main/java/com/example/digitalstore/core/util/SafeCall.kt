@@ -8,7 +8,8 @@ import java.net.SocketTimeoutException
 inline fun <T> safeCall(action: () -> T): Result<T> {
     return try {
         Result.success(action())
-    } catch (err: HttpException) {
+    }
+    catch (err: HttpException) {
         val appError = when (err.code()) {
             401 -> AppError.Unauthorized
             403 -> AppError.Forbidden
@@ -17,11 +18,16 @@ inline fun <T> safeCall(action: () -> T): Result<T> {
             else -> AppError.Unknown(err)
         }
         Result.failure(appError)
-    }catch (err: SocketTimeoutException) {
+    }
+    catch (err: SocketTimeoutException) {
             Result.failure(AppError.TimeoutError)
-    } catch (err: IOException) {
+    }
+    catch (err: IOException) {
         Result.failure(AppError.NetworkError)
-    } catch (err: Exception) {
+    }
+    catch (err: Exception) {
+        if (err is java.util.concurrent.CancellationException) throw err
+
         Result.failure(AppError.Unknown(err))
     }
 }

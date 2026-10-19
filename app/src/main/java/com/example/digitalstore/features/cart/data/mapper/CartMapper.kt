@@ -7,7 +7,7 @@ fun CartDTO.toDomainCart(): Cart{
     return Cart(
         discountedTotal = discountedTotal,
         id = id,
-        products = products,
+        products = products.map { it.toDomainProductCart() },
         total = total,
         totalProducts = totalProducts,
         totalQuantity = totalQuantity,

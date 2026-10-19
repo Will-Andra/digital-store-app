@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.digitalstore.features.cart.presentation.screen.CartDetailsScreen
+import com.example.digitalstore.features.cart.presentation.screen.CartScreen
 import com.example.digitalstore.features.home.HomeScreen
 import com.example.digitalstore.features.products.presentation.screen.ProductDetailScreen
 import com.example.digitalstore.features.products.presentation.screen.ProductScreen
@@ -30,7 +32,7 @@ fun AppNavigation() {
                     navController.navigate("products")
                 },
                 onCartClick = {
-                    Toast.makeText(context, "CartDTO coming soon", Toast.LENGTH_SHORT).show()
+                    navController.navigate("carts")
                 },
                 onUserClick = {
                     navController.navigate("users")
@@ -62,6 +64,16 @@ fun AppNavigation() {
 
             )
         }
+        composable("carts"){
+            CartScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onCartClick = { cartID ->
+                    navController.navigate("cartDetail/$cartID")
+                }
+            )
+        }
 
         ////////////////////////////////////////////////////////////
 
@@ -85,6 +97,19 @@ fun AppNavigation() {
             val productId = backStackEntry.arguments?.getInt("productId") ?: 0
             ProductDetailScreen(
                 productId = productId,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(
+            route = "cartDetail/{cartId}",
+            arguments = listOf(navArgument("cartId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val cartId = backStackEntry.arguments?.getInt("cartId") ?: 0
+            CartDetailsScreen(
+                cartId = cartId,
                 onBackClick = {
                     navController.popBackStack()
                 }

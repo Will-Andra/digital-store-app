@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.icons.outlined.ShoppingCart
@@ -157,13 +158,13 @@ fun ScreenArea(
                 }
             )
             HomeCardMenu(
-                title = "CartDTO",
+                title = "Carts",
                 description = "Check your shopping cart.",
                 icon = Icons.Outlined.ShoppingCart,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    Toast.makeText(context, "Navigating to CartDTO...", Toast.LENGTH_SHORT).show()
-                    //onCartClick()
+                    
+                    onCartClick()
                 }
             )
 
@@ -189,7 +190,7 @@ fun ScreenArea(
             HomeCardMenu(
                 title = "Posts",
                 description = "Check out our latest news and updates.",
-                icon = Icons.Outlined.CameraAlt,
+                icon = Icons.Outlined.Description,
                 modifier = Modifier.weight(1f),
                 onClick = {
                     Toast.makeText(context, "Navigating to Post...", Toast.LENGTH_SHORT).show()
