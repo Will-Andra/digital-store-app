@@ -133,7 +133,10 @@ fun UserList(
         contentPadding = PaddingValues(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(users) { user ->
+        items(
+            items = users,
+            key =  { user-> user.id}
+        ) { user ->
             UserItem(
                 user = user,
                 onClick = { onUserClick(user.id) }

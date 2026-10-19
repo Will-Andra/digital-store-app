@@ -23,7 +23,7 @@ class CartViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Loading)
     val uiState: StateFlow<CartUiState> = _uiState.asStateFlow()
 
-    fun getCart(){
+    fun loadCarts(){
         viewModelScope.launch {
             _uiState.update { CartUiState.Loading }
 
@@ -41,6 +41,5 @@ class CartViewModel @Inject constructor(
 
         }
     }
-
 
 }

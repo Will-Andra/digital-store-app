@@ -105,7 +105,7 @@ fun ProductScreenContent(
                 }
                 is ProductUiState.Success ->{
                     ProductList(
-                        products = uiState.products,
+                        products = state.products,
                         onProductClick = onProductClick
                     )
                 }
@@ -130,7 +130,11 @@ fun ProductList(
         contentPadding = PaddingValues(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(products) { product ->
+        items(
+            items  = products,
+            key = {product-> product.id}
+        )
+        { product ->
             ProductItem(
                 product = product,
                 onClick = { onProductClick(product.id) }
