@@ -6,6 +6,9 @@ import com.example.digitalstore.core.util.Constantes
 import com.example.digitalstore.features.cart.data.remote.CartAPI
 import com.example.digitalstore.features.cart.data.repository.CartRepositoryImpl
 import com.example.digitalstore.features.cart.domain.repository.CartRepository
+import com.example.digitalstore.features.posts.data.remote.PostAPI
+import com.example.digitalstore.features.posts.data.repository.PostRepositoryImpl
+import com.example.digitalstore.features.posts.domain.repository.PostRepository
 import com.example.digitalstore.features.products.data.remote.ProductAPI
 import com.example.digitalstore.features.products.data.repository.ProductRepositoryImpl
 import com.example.digitalstore.features.products.domain.repository.ProductRepository
@@ -73,6 +76,16 @@ object AppModule {
     @Provides
     fun providesCartRepository(cartAPI: CartAPI): CartRepository {
         return CartRepositoryImpl(cartAPI)
+    }
+
+    @Provides
+    fun providesPostAPI(retrofit: Retrofit): PostAPI{
+        return retrofit.create(PostAPI::class.java)
+    }
+
+    @Provides
+    fun providesPostRepository(postAPI: PostAPI): PostRepository{
+        return PostRepositoryImpl(postAPI)
     }
 
 
