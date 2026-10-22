@@ -163,7 +163,6 @@ fun ScreenArea(
                 icon = Icons.Outlined.ShoppingCart,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    
                     onCartClick()
                 }
             )
@@ -193,7 +192,6 @@ fun ScreenArea(
                 icon = Icons.Outlined.Description,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    Toast.makeText(context, "Navigating to Post...", Toast.LENGTH_SHORT).show()
                     onPostClick()
                 }
             )

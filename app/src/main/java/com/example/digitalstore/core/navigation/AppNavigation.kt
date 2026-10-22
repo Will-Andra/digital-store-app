@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.example.digitalstore.features.cart.presentation.screen.CartDetailsScreen
 import com.example.digitalstore.features.cart.presentation.screen.CartScreen
 import com.example.digitalstore.features.home.HomeScreen
+import com.example.digitalstore.features.posts.presentation.ui.PostDetailScreen
 import com.example.digitalstore.features.posts.presentation.ui.PostScreen
 import com.example.digitalstore.features.products.presentation.screen.ProductDetailScreen
 import com.example.digitalstore.features.products.presentation.screen.ProductScreen
@@ -82,8 +83,7 @@ fun AppNavigation() {
                     navController.popBackStack()
                 },
                 onPostClick = { postID ->
-                    Toast.makeText(context,"WTF", Toast.LENGTH_SHORT).show()
-                /*    navController.navigate("cartDetail/$postID")*/
+                    navController.navigate("postDetail/$postID")
                 }
             )
         }
@@ -123,6 +123,19 @@ fun AppNavigation() {
             val cartId = backStackEntry.arguments?.getInt("cartId") ?: 0
             CartDetailsScreen(
                 cartId = cartId,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(
+            route = "postDetail/{postId}",
+            arguments = listOf(navArgument("postId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val postId = backStackEntry.arguments?.getInt("postId") ?: 0
+            PostDetailScreen(
+                postId = postId,
                 onBackClick = {
                     navController.popBackStack()
                 }
