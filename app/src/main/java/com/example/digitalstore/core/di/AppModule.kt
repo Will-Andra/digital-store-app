@@ -84,8 +84,8 @@ object AppModule {
     }
 
     @Provides
-    fun providesPostRepository(postAPI: PostAPI): PostRepository{
-        return PostRepositoryImpl(postAPI)
+    fun providesPostRepository(postAPI: PostAPI, userRepository: UserRepository): PostRepository{
+        return PostRepositoryImpl(postAPI, userRepository)
     }
 
 

@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.example.digitalstore.features.cart.presentation.screen.CartDetailsScreen
 import com.example.digitalstore.features.cart.presentation.screen.CartScreen
 import com.example.digitalstore.features.home.HomeScreen
+import com.example.digitalstore.features.posts.presentation.ui.PostScreen
 import com.example.digitalstore.features.products.presentation.screen.ProductDetailScreen
 import com.example.digitalstore.features.products.presentation.screen.ProductScreen
 import com.example.digitalstore.features.users.presentation.screen.UserDetailScreen
@@ -38,7 +39,7 @@ fun AppNavigation() {
                     navController.navigate("users")
                 },
                 onPostClick = {
-                    Toast.makeText(context, "Posts coming soon", Toast.LENGTH_SHORT).show()
+                    navController.navigate("posts")
                 }
             )
         }
@@ -71,6 +72,18 @@ fun AppNavigation() {
                 },
                 onCartClick = { cartID ->
                     navController.navigate("cartDetail/$cartID")
+                }
+            )
+        }
+
+        composable("posts"){
+            PostScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onPostClick = { postID ->
+                    Toast.makeText(context,"WTF", Toast.LENGTH_SHORT).show()
+                /*    navController.navigate("cartDetail/$postID")*/
                 }
             )
         }
