@@ -49,6 +49,7 @@ import com.example.digitalstore.R
 import com.example.digitalstore.core.util.Constantes
 import com.example.digitalstore.features.products.data.dto.Dimensions
 import com.example.digitalstore.features.products.domain.model.Products
+import com.example.digitalstore.features.products.presentation.components.ProductsEmptyState
 import com.example.digitalstore.features.products.presentation.state.ProductUiState
 import com.example.digitalstore.features.products.presentation.viewmodel.ProductViewModel
 import com.example.digitalstore.ui.theme.DigitalStoreTheme
@@ -104,10 +105,15 @@ fun ProductScreenContent(
                     )
                 }
                 is ProductUiState.Success ->{
-                    ProductList(
-                        products = state.products,
-                        onProductClick = onProductClick
-                    )
+                    if ( state.products.isEmpty() ){
+                    //if (true) { //Use to test Empty products
+                        ProductsEmptyState()
+                    }else{
+                        ProductList(
+                            products = state.products,
+                            onProductClick = onProductClick
+                        )
+                    }
                 }
                 is ProductUiState.Error -> {
                     Text(
