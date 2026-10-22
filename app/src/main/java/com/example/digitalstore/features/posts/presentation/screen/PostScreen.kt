@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.digitalstore.core.util.Constantes
 import com.example.digitalstore.features.posts.domain.model.Posts
+import com.example.digitalstore.features.posts.presentation.components.PostEmptyState
 import com.example.digitalstore.features.posts.presentation.state.PostUiState
 import com.example.digitalstore.features.posts.presentation.viewmodel.PostViewModel
 import com.example.digitalstore.features.users.presentation.screen.UserTopBar
@@ -79,19 +80,27 @@ fun PostScreenContent(
                 is PostUiState.Loading -> {
                     CircularProgressIndicator()
                 }
+
                 is PostUiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(uiState.post) { post ->
-                            PostItem(
-                                post = post,
-                                onClick = { onPostClick(post.id) }
-                            )
-                        }
+                   if (uiState.post.isEmpty()) {
+                    // if (true) { //Use to test Empty post
+                        PostEmptyState()
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(uiState.post) { post ->
+                                PostItem(
+                                    post = post,
+                                    onClick = { onPostClick(post.id) }
+                                )
+                            }
+                        }//
+
                     }
                 }
+
                 is PostUiState.Error -> {
                     Text(
                         text = "Erro ao carregar posts: ${uiState.appError}",
@@ -250,7 +259,10 @@ fun PostScreenContentPreview() {
             userName = "Willian Developer",
             userImage = "https://via.placeholder.com/150",
             views = 342,
-            reactions = com.example.digitalstore.features.posts.data.dto.ReactionsDTO(likes = 45, dislikes = 2)
+            reactions = com.example.digitalstore.features.posts.data.dto.ReactionsDTO(
+                likes = 45,
+                dislikes = 2
+            )
         )
     )
 
