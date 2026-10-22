@@ -8,5 +8,7 @@ data class Posts(
     val reactions: ReactionsDTO,
     val title: String,
     val userId: Int,
+    val userName: String, //
+    val userImage: Any, //
     val views: Int
 )
