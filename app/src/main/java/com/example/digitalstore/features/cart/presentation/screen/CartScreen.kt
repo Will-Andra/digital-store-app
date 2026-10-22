@@ -41,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.digitalstore.core.util.Constantes
 import com.example.digitalstore.features.cart.domain.model.Cart
 import com.example.digitalstore.features.cart.domain.model.ProductCart
+import com.example.digitalstore.features.cart.presentation.components.CartEmptyState
 import com.example.digitalstore.features.cart.presentation.state.CartUiState
 import com.example.digitalstore.features.cart.presentation.viewmodel.CartViewModel
 import com.example.digitalstore.ui.theme.DigitalStoreTheme
@@ -96,10 +97,15 @@ fun CartScreenContent(
                 }
 
                 is CartUiState.Success -> {
-                    CartList(
-                        carts = state.cart,
-                        onCartClick = onCartClick
-                    )
+                    if ( state.cart.isEmpty() ){
+                    //if (true) { //Use to test Empty cart
+                        CartEmptyState()
+                    }else {
+                        CartList(
+                            carts = state.cart,
+                            onCartClick = onCartClick
+                        )
+                    }
                 }
 
                 is CartUiState.Error -> {
