@@ -26,6 +26,7 @@ import coil3.compose.AsyncImage
 import com.example.digitalstore.R
 import com.example.digitalstore.core.util.Constantes
 import com.example.digitalstore.features.users.domain.model.Users
+import com.example.digitalstore.features.users.presentation.components.UserEmptyState
 import com.example.digitalstore.features.users.presentation.state.UserUiState
 import com.example.digitalstore.features.users.presentation.viewmodel.UserViewModel
 import com.example.digitalstore.ui.theme.DigitalStoreTheme
@@ -77,10 +78,15 @@ fun UserScreenContent(
                     )
                 }
                 is UserUiState.Success -> {
-                    UserList(
-                        users = state.users,
-                        onUserClick = onUserClick
-                    )
+                    if ( state.users.isEmpty() ){
+                    //if (true) { //Use to test Empty user
+                        UserEmptyState()
+                    }else{
+                        UserList(
+                            users = state.users,
+                            onUserClick = onUserClick
+                        )
+                    }
                 }
                 is UserUiState.Error -> {
                     Text(
