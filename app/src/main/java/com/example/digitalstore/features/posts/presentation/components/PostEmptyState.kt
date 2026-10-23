@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PostEmptyState(
     modifier: Modifier = Modifier,
-    message: String = "No posts found."
+    message: String = "No posts found"
 ) {
     Box(
         modifier = modifier.fillMaxSize(),

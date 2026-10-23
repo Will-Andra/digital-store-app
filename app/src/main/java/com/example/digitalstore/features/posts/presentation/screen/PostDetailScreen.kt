@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.digitalstore.core.util.Constantes
+import com.example.digitalstore.core.util.formatThousands
 import com.example.digitalstore.features.posts.domain.model.Posts
 import com.example.digitalstore.features.posts.presentation.state.PostByIDUiState
 import com.example.digitalstore.features.posts.presentation.viewmodel.PostByIDViewModel
@@ -224,7 +225,7 @@ fun PostDetailBody(post: Posts) {
                             tint = Color.Gray
                         )
                         Text(
-                            text = "${post.views} views",
+                            text = "${post.views.formatThousands()} views",
                             style = MaterialTheme.typography.bodyMedium,
                             color = Color.Gray
                         )
@@ -242,7 +243,7 @@ fun PostDetailBody(post: Posts) {
                         )
 
                         Text(
-                            text = "${post.reactions.likes}",
+                            text = "${post.reactions.likes.formatThousands()}",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = Color(Constantes.BLUE_MAINCOLOR)

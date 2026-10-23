@@ -11,13 +11,13 @@ sealed class AppError: Exception(){
 
     fun toMessageError(): String{
         return when(this){
-            is NetworkError -> "Sem conexão com a internet"
-            is Unauthorized -> "Acesso não autorizado"
-            is Forbidden -> "Você não tem permissão para acessar este recurso"
-            is NotFound -> "Recurso não encontrado"
-            is TimeoutError -> "Tempo de conexão excedido. Verifique sua internet"
-            is ServerError -> "Erro interno no servidor (Código: $code). Tente novamente"
-            is Unknown -> "Ocorreu um erro desconhecido"
+            is NetworkError -> "No internet connection"
+            is Unauthorized -> "Unauthorized access"
+            is Forbidden -> "You do not have permission to access this resource"
+            is NotFound -> "Resource not found"
+            is TimeoutError -> "Connection timed out. Please check your internet"
+            is ServerError -> "Internal server error (Code: $code). Please try again"
+            is Unknown -> "An unknown error occurred"
         }
     }
 }
