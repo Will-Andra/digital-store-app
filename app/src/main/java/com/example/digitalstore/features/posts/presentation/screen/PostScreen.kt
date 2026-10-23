@@ -1,6 +1,5 @@
 package com.example.digitalstore.features.posts.presentation.ui
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,11 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.digitalstore.core.util.Constantes
+import com.example.digitalstore.core.util.formatThousands
+import com.example.digitalstore.features.posts.data.dto.ReactionsDTO
 import com.example.digitalstore.features.posts.domain.model.Posts
 import com.example.digitalstore.features.posts.presentation.components.PostEmptyState
+import com.example.digitalstore.features.posts.presentation.components.PostSearchBar
 import com.example.digitalstore.features.posts.presentation.state.PostUiState
 import com.example.digitalstore.features.posts.presentation.viewmodel.PostViewModel
-import com.example.digitalstore.features.users.presentation.screen.UserTopBar
+
 
 @Composable
 fun PostScreen(
@@ -39,15 +41,19 @@ fun PostScreen(
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
 
-    LaunchedEffect(key1 = Unit) {
+
+    LaunchedEffect(Unit) {
         viewModel.loadPost()
     }
 
     PostScreenContent(
         uiState = uiState,
+        searchQuery = searchQuery,
+        onSearchQueryChanged = { viewModel.onSearchQueryChanged(it) },
         onPostClick = onPostClick,
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
     )
 }
 
@@ -56,10 +62,11 @@ fun PostScreen(
 fun PostScreenContent(
     modifier: Modifier = Modifier,
     uiState: PostUiState,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
     onPostClick: (Int) -> Unit,
     onBackClick: () -> Unit
 ) {
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -73,40 +80,63 @@ fun PostScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
+                .padding(16.dp)
         ) {
             when (uiState) {
                 is PostUiState.Loading -> {
-                    CircularProgressIndicator()
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
 
                 is PostUiState.Success -> {
-                   if (uiState.post.isEmpty()) {
-                    // if (true) { //Use to test Empty post
-                        PostEmptyState()
-                    } else {
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            items(uiState.post) { post ->
-                                PostItem(
-                                    post = post,
-                                    onClick = { onPostClick(post.id) }
-                                )
-                            }
-                        }//
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        PostSearchBar(
+                            query = searchQuery,
+                            onQueryChange = onSearchQueryChanged
+                        )
 
+                        if (uiState.post.isEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                PostEmptyState()
+                            }
+                        } else {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                items(uiState.post) { post ->
+                                    PostItem(
+                                        post = post,
+                                        onClick = { onPostClick(post.id) }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
 
                 is PostUiState.Error -> {
-                    Text(
-                        text = "Erro ao carregar posts: ${uiState.appError}",
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Error loading posts: ${uiState.appError}",
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
                 }
             }
         }
@@ -173,7 +203,7 @@ fun PostItem(
                 ) {
                     AsyncImage(
                         model = post.userImage,
-                        contentDescription = "Avatar de ${post.userName}",
+                        contentDescription = "Avatar of ${post.userName}",
                         modifier = Modifier
                             .size(40.dp)
                             .clip(CircleShape),
@@ -238,7 +268,8 @@ fun PostItem(
                     tint = Color.Gray
                 )
                 Text(
-                    text = "${post.views} visualizações",
+                    //"$ ${String.format("%, .2f", cart.total)}"
+                    text = "${post.views.formatThousands()} views",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray
                 )
@@ -259,7 +290,7 @@ fun PostScreenContentPreview() {
             userName = "Willian Developer",
             userImage = "https://via.placeholder.com/150",
             views = 342,
-            reactions = com.example.digitalstore.features.posts.data.dto.ReactionsDTO(
+            reactions = ReactionsDTO(
                 likes = 45,
                 dislikes = 2
             )
@@ -270,6 +301,8 @@ fun PostScreenContentPreview() {
         Surface {
             PostScreenContent(
                 uiState = PostUiState.Success(samplePosts),
+                searchQuery = "Jetpack",
+                onSearchQueryChanged = {},
                 onPostClick = {},
                 onBackClick = {}
             )
