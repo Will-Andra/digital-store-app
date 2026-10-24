@@ -7,4 +7,7 @@ data class Users(
     val firstName: String,
     val lastName: String,
     val image: Any
-)
+){
+    val fullName: String
+        get() = "$firstName $lastName"
+}

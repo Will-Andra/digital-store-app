@@ -49,7 +49,7 @@ class PostViewModel @Inject constructor(
 
     private fun filterPosts(query: String) {
         if (originalPosts.isEmpty()) {
-            _uiState.value = PostUiState.Success(post = emptyList())
+            _uiState.update { PostUiState.Success(emptyList()) }
             return
         }
 

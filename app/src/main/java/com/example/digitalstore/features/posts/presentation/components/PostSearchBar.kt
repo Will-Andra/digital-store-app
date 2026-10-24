@@ -32,7 +32,7 @@ fun PostSearchBar(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Ícone de pesquisa"
+                contentDescription = "Search Icon"
             )
         },
         trailingIcon = {
