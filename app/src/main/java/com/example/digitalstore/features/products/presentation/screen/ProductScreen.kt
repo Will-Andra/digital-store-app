@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsEndWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -40,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,8 +52,10 @@ import com.example.digitalstore.core.util.Constantes
 import com.example.digitalstore.features.products.data.dto.Dimensions
 import com.example.digitalstore.features.products.domain.model.Products
 import com.example.digitalstore.features.products.presentation.components.ProductsEmptyState
+import com.example.digitalstore.features.products.presentation.components.ProductsSearchBar
 import com.example.digitalstore.features.products.presentation.state.ProductUiState
 import com.example.digitalstore.features.products.presentation.viewmodel.ProductViewModel
+import com.example.digitalstore.features.users.presentation.screen.UserItem
 import com.example.digitalstore.ui.theme.DigitalStoreTheme
 
 @Composable
@@ -61,6 +65,7 @@ fun ProductScreen(
     onBackClick: () -> Unit,
 ) {
     val uiState by viewmodel.uiState.collectAsState()
+    val searchQuery by viewmodel.searchQuery.collectAsState()
 
     LaunchedEffect(Unit) {
         viewmodel.loadProducts()
@@ -68,15 +73,18 @@ fun ProductScreen(
 
     ProductScreenContent(
         uiState = uiState,
+        searchQuery = searchQuery,
+        onSearchQueryChanged = {viewmodel.onSearchQueryChanged(it)},
         onProductClick = onProductClick,
         onBackClick = onBackClick
-
     )
 }
 
 @Composable
 fun ProductScreenContent(
     uiState: ProductUiState,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
     onProductClick: (Int) -> Unit,
     onBackClick: () -> Unit
 
@@ -94,57 +102,58 @@ fun ProductScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 15.dp),
+                .padding(16.dp),
             contentAlignment = Alignment.Center,
 
         ) {
-            when( val state = uiState){
+            when( uiState ){
                 is ProductUiState.Loading -> {
                     CircularProgressIndicator(
                         color = Color(Constantes.BLUE_MAINCOLOR)
                     )
                 }
                 is ProductUiState.Success ->{
-                    if ( state.products.isEmpty() ){
-                    //if (true) { //Use to test Empty products
-                        ProductsEmptyState()
-                    }else{
-                        ProductList(
-                            products = state.products,
-                            onProductClick = onProductClick
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        ProductsSearchBar(
+                            query =  searchQuery,
+                            onQueryChange = onSearchQueryChanged
                         )
+                        if ( uiState.products.isEmpty() ){
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                contentAlignment = Alignment.Center
+                            ){
+                                ProductsEmptyState()
+                            }
+                        }else{
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                items(uiState.products ) { product ->
+                                    ProductItem(
+                                        product = product,
+                                        onClick = {onProductClick(product.id)}
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
                 is ProductUiState.Error -> {
                     Text(
-                        text = state.error.toMessageError(),
+                        text = uiState.error.toMessageError(),
                         color = MaterialTheme.colorScheme.error
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun ProductList(
-    products: List<Products>,
-    onProductClick: (Int) -> Unit
-) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(
-            items  = products,
-            key = {product-> product.id}
-        )
-        { product ->
-            ProductItem(
-                product = product,
-                onClick = { onProductClick(product.id) }
-            )
         }
     }
 }
@@ -305,11 +314,13 @@ fun ProductScreenPreview() {
                         price = 0.00,
                         shippingInformation = "No shippingInformation",
                         thumbnail = R.drawable.ic_perfil,
-                        title = "No title available",
+                        title = "No product available",
                         weight = 1
                     )
                 )
             ),
+            searchQuery = "Product Name",
+            onSearchQueryChanged = {},
             onBackClick = {},
             onProductClick = {}
         )
