@@ -2,6 +2,7 @@ package com.example.digitalstore.features.home
 
 import android.app.Activity
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,6 +57,11 @@ fun HomeScreen(
     onCartClick: () -> Unit,
     onPostClick: () -> Unit
 ) {
+
+   /* val context = LocalContext.current
+    BackHandler(enabled = true) {
+        (context as? Activity)?.finish()
+    }*/
 
     val view = LocalView.current
     if (!view.isInEditMode) {
