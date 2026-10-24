@@ -23,6 +23,11 @@ class CartViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Loading)
     val uiState: StateFlow<CartUiState> = _uiState.asStateFlow()
 
+    private var originalList: List<Cart> = emptyList()
+
+    private val _searchQuery = MutableStateFlow<String>("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
     fun loadCarts(){
         viewModelScope.launch {
             _uiState.update { CartUiState.Loading }
@@ -30,16 +35,39 @@ class CartViewModel @Inject constructor(
             val result = cartUseCase()
             result.fold(
                 onSuccess = { cart ->
-                    _uiState.update { CartUiState.Success(cart) }
+                    //_uiState.update { CartUiState.Success(cart) }
+                    originalList = cart
+                    filterCart(_searchQuery.value)
                 },
                 onFailure = { error ->
                     val appError = (error as? AppError)?: AppError.Unknown(error)
                     _uiState.update { CartUiState.Error(appError) }
                 }
-
             )
-
         }
     }
+
+    private fun filterCart(query: String) {
+        if ( originalList.isEmpty() ){
+            _uiState.update { CartUiState.Success(emptyList()) }
+            return
+        }
+
+        val filterList = if ( query.isBlank() ){
+            originalList
+        }else{
+            originalList.filter { cart ->
+                cart.userName.contains(query, ignoreCase = true)||
+                cart.userId.toString().contains(query)
+            }
+        }
+        _uiState.update { CartUiState.Success(filterList) }
+    }
+
+    fun onSearchQueryChanged(query: String){
+        _searchQuery.value = query
+        filterCart(query)
+    }
+
 
 }

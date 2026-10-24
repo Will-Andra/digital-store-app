@@ -3,7 +3,7 @@ package com.example.digitalstore.features.cart.data.mapper
 import com.example.digitalstore.features.cart.data.dto.CartDTO
 import com.example.digitalstore.features.cart.domain.model.Cart
 
-fun CartDTO.toDomainCart(): Cart{
+fun CartDTO.toDomainCart(userName: String): Cart{
     return Cart(
         discountedTotal = discountedTotal,
         id = id,
@@ -11,6 +11,7 @@ fun CartDTO.toDomainCart(): Cart{
         total = total,
         totalProducts = totalProducts,
         totalQuantity = totalQuantity,
-        userId = userId
+        userId = userId,
+        userName = userName  //
     )
 }

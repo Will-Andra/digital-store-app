@@ -9,6 +9,7 @@ data class Cart(
     val total: Double,
     val totalProducts: Int,
     val totalQuantity: Int,
-    val userId: Int
+    val userId: Int,
+    val userName: String
 
 )
