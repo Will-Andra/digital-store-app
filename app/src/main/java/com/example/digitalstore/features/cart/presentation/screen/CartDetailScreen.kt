@@ -176,6 +176,13 @@ fun CartSummaryHeaderCard(cart: Cart) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+
+                Text(
+                    text = "User: ${cart.userName}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Bold
+                )
             }
 
             Column(horizontalAlignment = Alignment.End) {
@@ -314,7 +321,7 @@ fun CartScreenDetailsPreview() {
                     totalProducts = 4,
                     totalQuantity = 12,
                     userId = 1,
-                    userName = ""
+                    userName = "User name"
                 )
             ),
             onBackClick = {}
