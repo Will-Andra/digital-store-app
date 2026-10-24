@@ -313,7 +313,8 @@ fun CartScreenDetailsPreview() {
                     total = 13037.88,
                     totalProducts = 4,
                     totalQuantity = 12,
-                    userId = 1
+                    userId = 1,
+                    userName = ""
                 )
             ),
             onBackClick = {}

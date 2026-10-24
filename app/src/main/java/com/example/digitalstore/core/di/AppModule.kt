@@ -74,8 +74,8 @@ object AppModule {
     }
 
     @Provides
-    fun providesCartRepository(cartAPI: CartAPI): CartRepository {
-        return CartRepositoryImpl(cartAPI)
+    fun providesCartRepository(cartAPI: CartAPI,userRepository: UserRepository): CartRepository {
+        return CartRepositoryImpl(cartAPI,userRepository)
     }
 
     @Provides

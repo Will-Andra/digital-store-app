@@ -1,5 +1,6 @@
 package com.example.digitalstore.features.cart.presentation.screen
 
+import android.view.translation.UiTranslationStateCallback
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,8 +43,13 @@ import com.example.digitalstore.core.util.Constantes
 import com.example.digitalstore.features.cart.domain.model.Cart
 import com.example.digitalstore.features.cart.domain.model.ProductCart
 import com.example.digitalstore.features.cart.presentation.components.CartEmptyState
+import com.example.digitalstore.features.cart.presentation.components.CartSearchBar
 import com.example.digitalstore.features.cart.presentation.state.CartUiState
 import com.example.digitalstore.features.cart.presentation.viewmodel.CartViewModel
+import com.example.digitalstore.features.posts.presentation.components.PostEmptyState
+import com.example.digitalstore.features.posts.presentation.components.PostSearchBar
+import com.example.digitalstore.features.posts.presentation.state.PostUiState
+import com.example.digitalstore.features.posts.presentation.ui.PostItem
 import com.example.digitalstore.ui.theme.DigitalStoreTheme
 import kotlin.Int
 import kotlin.collections.List
@@ -55,6 +61,7 @@ fun CartScreen(
     onCartClick: (Int) -> Unit,
 ) {
     val uiState by viewmodel.uiState.collectAsState()
+    val searchQuery by viewmodel.searchQuery.collectAsState()
 
     LaunchedEffect(Unit) {
         viewmodel.loadCarts()
@@ -62,6 +69,8 @@ fun CartScreen(
 
     CartScreenContent(
         uiState = uiState,
+        searchQuery = searchQuery,
+        onSearchQueryChanged = { viewmodel.onSearchQueryChanged(it) },
         onBackClick = onBackClick,
         onCartClick = onCartClick
     )
@@ -70,6 +79,8 @@ fun CartScreen(
 @Composable
 fun CartScreenContent(
     uiState: CartUiState,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
     onBackClick: () -> Unit,
     onCartClick: (Int) -> Unit
 ) {
@@ -86,31 +97,59 @@ fun CartScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 15.dp),
+                .padding(15.dp),
             contentAlignment = Alignment.Center,
         ) {
-            when (val state = uiState) {
+            when (uiState) {
                 is CartUiState.Loading -> {
-                    CircularProgressIndicator(
-                        color = Color(Constantes.BLUE_MAINCOLOR)
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
 
                 is CartUiState.Success -> {
-                    if ( state.cart.isEmpty() ){
-                    //if (true) { //Use to test Empty cart
-                        CartEmptyState()
-                    }else {
-                        CartList(
-                            carts = state.cart,
-                            onCartClick = onCartClick
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        CartSearchBar(
+                            query = searchQuery,
+                            onQueryChange = onSearchQueryChanged
                         )
+
+                        if ( uiState.cart.isEmpty() ){
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CartEmptyState()
+                            }
+                        } else{
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                items(uiState.cart) { cart ->
+                                    CartItem (
+                                        cart = cart,
+                                        onClick = { onCartClick(cart.id) }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
 
                 is CartUiState.Error -> {
                     Text(
-                        text = state.error.toMessageError(),
+                        text = uiState.error.toMessageError(),
                         color = MaterialTheme.colorScheme.error
                     )
                 }
@@ -119,35 +158,14 @@ fun CartScreenContent(
     }
 }
 
-@Composable
-fun CartList(
-    carts: List<Cart>,
-    onCartClick: (Int) -> Unit
-) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(
-            items = carts,
-            key =  {cart-> cart.id})
-        { cart ->
-            CartItem(
-                cart = cart,
-                onClick = { onCartClick(cart.id) }
-            )
-        }
-    }
-}
 
 @Composable
 fun CartItem(
     cart: Cart,
-    onClick: (Int) -> Unit
+    onClick: () -> Unit
 ) {
     Card(
-        onClick = { onClick(cart.id) },
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
@@ -201,6 +219,12 @@ fun CartItem(
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                    Text(
+                        text = "User: ${cart.userName}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
 
@@ -211,7 +235,8 @@ fun CartItem(
                 Text(
                     text = "Total",
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "$ ${String.format("%, .2f", cart.total)}",
@@ -279,10 +304,13 @@ fun CartScreenPreview() {
                         total = 0.0,
                         totalProducts = 0,
                         totalQuantity = 0,
-                        userId = 0
+                        userId = 0,
+                        userName = ""
                     )
                 )
             ),
+            searchQuery = "Cart number",
+            onSearchQueryChanged = {},
             onBackClick = {},
             onCartClick = {}
         )
