@@ -27,16 +27,16 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = "splash" // <-- 1. Começa agora pela Splash e não pela Home!
+        startDestination = "splash"
 
     ) {
 
-        // 2. Adicionamos a rota da Splash Screen aqui em cima
+
         composable("splash") {
             SplashScreen(
                 onSplashFinished = {
                     navController.navigate("home") {
-                        // 3. Limpa a splash da pilha para o botão voltar nunca mais voltar para trás
+
                         popUpTo("splash") { inclusive = true }
                     }
                 }
