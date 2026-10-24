@@ -40,6 +40,7 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
@@ -78,4 +79,7 @@ dependencies {
     // Retrofit: Conexão HTTP
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+
+    // SplashScreen: API Oficial
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }

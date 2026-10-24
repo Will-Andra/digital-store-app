@@ -15,6 +15,7 @@ import com.example.digitalstore.features.posts.presentation.ui.PostDetailScreen
 import com.example.digitalstore.features.posts.presentation.ui.PostScreen
 import com.example.digitalstore.features.products.presentation.screen.ProductDetailScreen
 import com.example.digitalstore.features.products.presentation.screen.ProductScreen
+import com.example.digitalstore.features.splash.SplashScreen // Certifica-te de importar o teu ecrã de splash
 import com.example.digitalstore.features.users.presentation.screen.UserDetailScreen
 import com.example.digitalstore.features.users.presentation.screen.UserScreen
 
@@ -26,8 +27,22 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = "splash" // <-- 1. Começa agora pela Splash e não pela Home!
+
     ) {
+
+        // 2. Adicionamos a rota da Splash Screen aqui em cima
+        composable("splash") {
+            SplashScreen(
+                onSplashFinished = {
+                    navController.navigate("home") {
+                        // 3. Limpa a splash da pilha para o botão voltar nunca mais voltar para trás
+                        popUpTo("splash") { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable("home") {
             HomeScreen(
                 onProductClick = {
