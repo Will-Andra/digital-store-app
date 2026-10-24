@@ -2,6 +2,7 @@ package com.example.digitalstore.features.users.presentation.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -18,15 +19,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.digitalstore.R
 import com.example.digitalstore.core.util.Constantes
+import com.example.digitalstore.features.posts.presentation.components.PostSearchBar
 import com.example.digitalstore.features.users.domain.model.Users
 import com.example.digitalstore.features.users.presentation.components.UserEmptyState
+import com.example.digitalstore.features.users.presentation.components.UserSearchBar
 import com.example.digitalstore.features.users.presentation.state.UserUiState
 import com.example.digitalstore.features.users.presentation.viewmodel.UserViewModel
 import com.example.digitalstore.ui.theme.DigitalStoreTheme
@@ -38,6 +43,7 @@ fun UserScreen(
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadUsers()
@@ -45,6 +51,8 @@ fun UserScreen(
 
     UserScreenContent(
         uiState = uiState,
+        searchQuery = searchQuery,
+        onSearchQueryChanged = { viewModel.onSearchQueryChanged(it) },
         onUserClick = onUserClick,
         onBackClick = onBackClick
     )
@@ -53,6 +61,8 @@ fun UserScreen(
 @Composable
 fun UserScreenContent(
     uiState: UserUiState,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
     onUserClick: (Int) -> Unit,
     onBackClick: () -> Unit
 ) {
@@ -68,29 +78,60 @@ fun UserScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 15.dp),
-            contentAlignment = Alignment.Center
+                .padding( 16.dp)
         ) {
-            when (val state = uiState) {
+            when (uiState) {
                 is UserUiState.Loading -> {
-                    CircularProgressIndicator(
-                        color = Color(Constantes.BLUE_MAINCOLOR)
-                    )
-                }
-                is UserUiState.Success -> {
-                    if ( state.users.isEmpty() ){
-                    //if (true) { //Use to test Empty user
-                        UserEmptyState()
-                    }else{
-                        UserList(
-                            users = state.users,
-                            onUserClick = onUserClick
-                        )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
+
+                is UserUiState.Success ->{
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        UserSearchBar(
+                            query = searchQuery,
+                            onQueryChange = onSearchQueryChanged
+                        )
+
+                        if ( uiState.users.isEmpty() ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                contentAlignment = Alignment.Center
+                            ){
+                                UserEmptyState()
+                            }
+                        }else{
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                items(uiState.users ) { user ->
+                                    UserItem(
+                                        user = user,
+                                        onClick = {onUserClick(user.id)}
+                                    )
+                                }
+                            }
+                        }
+
+
+                    }
+                }
+
                 is UserUiState.Error -> {
                     Text(
-                        text = state.error.toMessageError(),
+                        text = uiState.error.toMessageError(),
                         color = MaterialTheme.colorScheme.error
                     )
                 }
@@ -129,27 +170,6 @@ fun UserTopBar(
     )
 }
 
-@Composable
-fun UserList(
-    users: List<Users>,
-    onUserClick: (Int) -> Unit
-) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(
-            items = users,
-            key =  { user-> user.id}
-        ) { user ->
-            UserItem(
-                user = user,
-                onClick = { onUserClick(user.id) }
-            )
-        }
-    }
-}
 
 @Composable
 fun UserItem(
@@ -193,7 +213,7 @@ fun UserItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "${user.firstName} ${user.lastName}",
+                        text = user.fullName,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -242,7 +262,7 @@ fun UserItem(
 @Preview(showBackground = true)
 @Composable
 fun UserScreenPreview() {
-    DigitalStoreTheme {
+    MaterialTheme  {
         UserScreenContent(
             uiState = UserUiState.Success(
                 users = listOf(
@@ -264,6 +284,8 @@ fun UserScreenPreview() {
                     )
                 )
             ),
+            searchQuery = "User Name",
+            onSearchQueryChanged = {},
             onUserClick = {},
             onBackClick = {}
         )

@@ -192,7 +192,7 @@ fun UserDetailContent(user: Users) {
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "${user.firstName} ${user.lastName}",
+                text = user.fullName,
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
