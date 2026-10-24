@@ -305,7 +305,7 @@ fun CartScreenPreview() {
                         totalProducts = 0,
                         totalQuantity = 0,
                         userId = 0,
-                        userName = ""
+                        userName = "User name"
                     )
                 )
             ),
