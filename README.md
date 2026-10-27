@@ -48,27 +48,8 @@
 + Purpose: Module for platform communications and news feed.
 
 📂 Package Architecture
-+ Plaintext
-  com.example.digitalstore/
-  ├── DigitalStoreApplication.kt  # Base Application class (@HiltAndroidApp)
-  ├── MainActivity.kt             # Entry Point Activity for Compose
-  │
-  ├── core/                       # Shared modules and base configurations
-  │   ├── di/                     # Hilt Modules (Network, Database, Repositories)
-  │   ├── domain/                 # Business Entities, UseCases, and Domain Logic
-  │   ├── navigation/             # AppNavigation, routes, and NavHost graph
-  │   └── util/                   # Extensions, safeCall wrappers, and utilities
-  │
-  ├── features/                   # Presentation Layer grouped by feature
-  │   ├── cart/                   # Shopping Cart Module
-  │   ├── home/                   # Home Dashboard Module
-  │   ├── posts/                  # Posts/News Feed Module
-  │   ├── products/               # Product Catalog Module
-  │   ├── splash/                 # Splash Screen Module
-  │   └── users/                  # User Profile Module
-  │
-  └── ui/                         # Global visual styles
-      └── theme/                  # Colors, Typography, Shapes, and Compose Themes
+<img width="727" height="490" alt="image" src="https://github.com/user-attachments/assets/96086dd7-34cd-416f-a721-8a4f3e0fb8bf" />
+
       
 🚀 Getting Started
 + Clone the repository:
