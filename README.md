@@ -48,6 +48,7 @@
 + Purpose: Module for platform communications and news feed.
 
 📂 Package Architecture
+
 <img width="727" height="490" alt="image" src="https://github.com/user-attachments/assets/96086dd7-34cd-416f-a721-8a4f3e0fb8bf" />
 
       
